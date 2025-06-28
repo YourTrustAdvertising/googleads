@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
     <title>Google Ads для бизнеса — Экспертная команда</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6760TMNFK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-S6760TMNFK');
+    </script>
 </head>
 <body>
     <header>
@@ -21,7 +30,18 @@
         <section class="hero">
             <h1>Google Ads для роста вашего бизнеса</h1>
             <p>Настроим и оптимизируем рекламу, чтобы вы получали больше клиентов и заявок без лишних затрат.</p>
-            <a href="#contact" class="btn">Бесплатная консультация</a>
+        </section>
+
+        <!-- Компактная форма заявки с honeypot -->
+        <section class="contact compact-contact" id="contact">
+            <form>
+                <input type="text" placeholder="Ваше имя" name="name" required>
+                <input type="email" placeholder="Ваш email" name="email" required>
+                <input type="tel" placeholder="Телефон" name="phone">
+                <!-- Honeypot поле -->
+                <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+                <button type="submit">Оставить заявку</button>
+            </form>
         </section>
 
         <section class="about" id="about">
@@ -69,17 +89,6 @@
                 </div>
             </div>
         </section>
-
-        <section class="contact" id="contact">
-            <h2>Оставьте заявку</h2>
-            <p>Заполните форму — мы свяжемся с вами в течение рабочего дня и бесплатно проконсультируем по вашей рекламе.</p>
-            <form>
-                <input type="text" placeholder="Ваше имя" required>
-                <input type="email" placeholder="Ваш email" required>
-                <input type="tel" placeholder="Ваш телефон">
-                <button type="submit">Отправить заявку</button>
-            </form>
-        </section>
     </main>
     <footer>
         <p>© 2025 Google Ads для бизнеса. Все права защищены.</p>
@@ -94,11 +103,16 @@
       </div>
     </div>
     <script>
-    document.querySelector('.contact form').addEventListener('submit', function(e) {
+    document.querySelector('.compact-contact form').addEventListener('submit', function(e) {
         e.preventDefault();
-        const name = this.querySelector('input[placeholder="Ваше имя"]').value;
-        const email = this.querySelector('input[placeholder="Ваш email"]').value;
-        const phone = this.querySelector('input[placeholder="Ваш телефон"]').value;
+        // Honeypot check
+        if(this.website && this.website.value) {
+            // Если honeypot заполнен — не отправляем
+            return;
+        }
+        const name = this.querySelector('input[name="name"]').value;
+        const email = this.querySelector('input[name="email"]').value;
+        const phone = this.querySelector('input[name="phone"]').value;
         const message = `<b>Новая заявка с сайта!</b>
 <b>Имя:</b> ${name}
 <b>Email:</b> ${email}
