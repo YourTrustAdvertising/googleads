@@ -96,8 +96,30 @@
     <script>
     document.querySelector('.contact form').addEventListener('submit', function(e) {
         e.preventDefault();
-        document.getElementById('modal').style.display = 'flex';
-        this.reset();
+        const name = this.querySelector('input[placeholder="Ваше имя"]').value;
+        const email = this.querySelector('input[placeholder="Ваш email"]').value;
+        const phone = this.querySelector('input[placeholder="Ваш телефон"]').value;
+        const message = `<b>Новая заявка с сайта!</b>
+<b>Имя:</b> ${name}
+<b>Email:</b> ${email}
+<b>Телефон:</b> ${phone}`;
+        fetch('https://api.telegram.org/bot7841392860:AAHKe9_cMRlvQPyoVOkkTyEpnctE6JwgFT4/sendMessage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: '-1002814520014',
+                text: message,
+                parse_mode: 'HTML'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('modal').style.display = 'flex';
+            this.reset();
+        })
+        .catch(error => {
+            alert('Ошибка отправки заявки. Попробуйте ещё раз.');
+        });
     });
     </script>
 </body>
